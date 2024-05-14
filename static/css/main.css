@@ -1,0 +1,17 @@
+.camera-frame {
+	position: relative;
+}
+
+.scan-box {
+	width: 120px;
+	height: 130px;
+	position: absolute;
+	z-index: 999;
+}
+
+/*.scan-box > .scan-box-caption {
+	color: white;
+  font-weight: bold;
+  text-align: center;
+  background: red;
+}*/

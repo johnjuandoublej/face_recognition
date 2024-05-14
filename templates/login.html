@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="w3-panel w3-green w3-container">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <div class="w3-container w3-padding">
+        <div id="loginResult"></div>
+        <div id="loginCamera" style="width:600px;height:340px;border:1px solid #c0c0c0"></div>
+    </div>
+    
+    <script src="path/to/bootstrap/js/bootstrap.bundle.js"></script>
+    <script src="{{ url_for('static',filename='js/webcam.min.js') }}"></script>
+    <script>
+        Webcam.set({
+            width: 600,
+            height: 340,
+            image_type: 'jpeg',
+            jpeg_quality: 90
+        });
+
+        var isLoginWebcamActive = false;
+
+        function initializeLoginWebcam() {
+            try {
+                if (!isLoginWebcamActive) {
+                    Webcam.attach("#loginCamera");
+                    isLoginWebcamActive = true;
+                }
+            } catch (error) {
+                console.error("Error attaching webcam:", error);
+            }
+        }
+
+        // Initialize webcam on page load
+        window.onload = initializeLoginWebcam;
+
+        function loginTakePicture() {
+            try {
+                if (isLoginWebcamActive) {
+                    Webcam.snap(function (data_uri) {
+                        var loginResultElement = document.getElementById('loginResult');
+                        var loginCameraElement = document.getElementById('loginCamera');
+                        if (loginResultElement && loginCameraElement) {
+                            loginResultElement.innerHTML = "<img id='loginImageprev' src=" + data_uri + " style='width: 600px; height: 340px;'>";
+                            loginCameraElement.style.display = 'none';
+                        } else {
+                            console.error("One or more required elements not found.");
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error("Error taking picture:", error);
+            }
+        }
+
+        // Perform face recognition
+        function loginRecognize() {
+            var picture = document.getElementById('loginImageprev').src;
+
+            // Make an AJAX request to your Flask route for face recognition
+            $.ajax({
+    type: "POST",
+    url: "/login",  // Change this to the actual route for face recognition
+    data: { picture: picture },
+    success: function (response) {
+        // Handle the response from the server (e.g., show a message)
+        alert(response);
+    },
+    error: function (error) {
+        console.error("Error in AJAX request:", error);
+    }
+});
+    </script>
+{% endblock %}

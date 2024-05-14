@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">	
+		<meta http-equiv="X-UA-Compatible" content="ie-edge">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0">
+		<link rel="stylesheet" href="{{ url_for('static',filename='/css/w3.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static',filename='/css/main.css') }}">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+		<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.bundle.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+		<script src="{{ url_for ('static',filename='/js/sweetalert.js')}}"></script> 
+
+  
+		<title>{{ title | upper }}</title>
+	</head>
+	<body>
+		<div class="w3-container w3-padding w3-blue w3-card-2">
+			<h3>{{ title }}</h3>
+			{% block menu %}
+			{% endblock %}
+			{% block menubar %}
+    {% endblock %}
+		</div>
+		<br>
+			{% block content %}
+			{% endblock %}
+		</div>
+		<hr>
+		<br><br><br><br><br><br><br><br><br><br><br>
+				<div class="w3-center">Lovitos, Cananua, Dujali &copy 2023</div>
+	<script>
+		function showmodal(modalname,action)	{ document.getElementById(modalname).style.display=action;}
+		
+				function deleteuser(id) {
+        Swal.fire({
+  			title: "Are you sure?",
+  			text: "You won't be able to revert this!",
+  			icon: "warning",
+  			showCancelButton: true,
+  			confirmButtonColor: "#3085d6",
+  			cancelButtonColor: "#d33",
+  			confirmButtonText: "Yes, delete it!"
+				}).then((result) => {
+  				if (result.isConfirmed) {
+    				Swal.fire({
+      		title: "Deleted!",
+      		text: "Your file has been deleted.",
+      		icon: "success"
+    });
+    			location.href = "deleteuser?id="+id
+  }
+});
+    }
+			</script>
+	</body>
+</html>
